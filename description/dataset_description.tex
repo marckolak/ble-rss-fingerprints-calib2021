@@ -70,16 +70,26 @@ The dataset consists of three parts:
 \end{itemize}
 
 \section{Files}
-The dataset consists of files containing measurement results, measurement locations and a Python script:
+The dataset consists of files containing raw measurement results, processed measurement results and Python scripts for data handling. 
 \begin{itemize}
-\item \texttt{x.log} - where $x=1..57$ - output log files containing CIR and distance measurement results,
-\item \texttt{anchors.csv} - x-y coordinates of the transmitter (referenced as an anchor),
-\item \texttt{tags.csv} - x-y coordinates of the receiver (referenced as a tag),
-\item \texttt{pairs.csv} - list of anchor-tag location pairs for which the measurements were performed,
-\item \texttt{labels.csv} - LOS/NLOS labels assigned to the measurement results in paper \cite{b1},
-\item \texttt{loadCIR.py} - python script decoding the log file and loading CIR and ranging measurement results.
-\end{itemize} 
+\item \texttt{slam/mapping\_motion.txt} - file containing motion history for SLAM measurements,
+\item \texttt{slam/mapping\_scans.txt} - scans gather during the SLAM session,
+\item \texttt{slam/gridmap.pickle} - gridmap obtained using the GraphSLAM algorithm,
+\item \texttt{calibration/calibX\_motion.txt} - file containing motion history for a calibration path X $X=1..4$,
+\item \texttt{calibration/calibX\_scans.txt} - file containing scans for a calibration path X $X=1..4$,
+\item \texttt{calibration/calibX\_ble.txt} - file containing RSS measurement results for a calibration path X $X=1..4$,
+\item \texttt{calibration/calibX\_df.csv} - preprocessed calibration DataFrames (LiDAR locations + RSS) $X=1..4$,
+\item \texttt{calibration/calibration\_df.csv} - calibration DataFrame (tag locations \& RSS measurement results),
+\item \texttt{tests/test\_robot\_motion.txt} - file containing motion history for a robot test path X,
+\item \texttt{tests/test\_robot\_scans.txt} - file containing scans for a robot test path X,
+\item \texttt{tests/test\_robot\_ble.txt} - file containing RSS measurement results for a robot test path X
+\item \texttt{tests/test\_robot\_df.csv} - preprocessed test DataFrames (tag locations \& RSS measurement results),
+\item \texttt{tests/test\_walk\_ble.txt} - file containing RSS measurement results for a walking person,
+\item \texttt{tests/test\_walk\_path.csv} - walking test path coordinates,
 
+
+\item \texttt{prepare\_scans.py} - python script loading and preparing scans for SLAM.
+\end{itemize} 
 
 \section{Measurements description}
 
@@ -95,18 +105,24 @@ The system infrastructure used in the study comprised six anchors, distributed a
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\columnwidth]{figs/robot}
+\includegraphics[width=0.7\columnwidth]{figs/robot}
 \caption{\label{fig:robot}The mobile platform used in the study.}
 \end{figure}
 
 
-The platform was based on the Dagu Wild Thumper 6WD chassis and was controlled with a specially developed Python-based controller running on Raspberry Pi 4. The code for the controller and the PC applications used to gather the LiDAR results can be found at \cite{c2}.  The odometry measurements were performed by estimating the traveled distance and rotation angle through multiplying the elapsed time by the linear and rotation speed respectively.
+The platform was based on the Dagu Wild Thumper 6WD chassis and was controlled with a specially developed Python-based controller running on Raspberry Pi 4. The code for the controller and the PC applications used to gather the LiDAR results can be found at \cite{b2}.  The odometry measurements were performed by estimating the traveled distance and rotation angle through multiplying the elapsed time by the linear and rotation speed respectively.
 
 The platform was equipped with a Scanse Sweep LiDAR, which is a discontinued 360 degree range sensor. During the study, the LiDAR was set to collect scans with a 2~Hz rate.
 
 The system tag was attached at the middle the robot on a one meter long wooden pole, which placed it at the height of 1.3 m. Such height is close to a tag worn on a lanyard and ensures that low furniture pieces such as bed frames, couches or tables won't negatively impact the RSS measurement results.
 
+The location of the calibration points are presented in Fig.\ref{fig:calibration}.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figs/measurement_points}
+\caption{\label{fig:calibration}Locations of calibration measurements. The colours of the points reflect the measured RSS value by anchor 4.}
+\end{figure}
 
 
 \section{Licence and attribution}

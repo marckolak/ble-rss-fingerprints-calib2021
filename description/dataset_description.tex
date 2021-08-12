@@ -88,7 +88,10 @@ The dataset consists of files containing raw measurement results, processed meas
 \item \texttt{tests/test\_walk\_path.csv} - walking test path coordinates,
 
 
-\item \texttt{prepare\_scans.py} - python script loading and preparing scans for SLAM.
+\item \texttt{prepare\_scans.py} - python script loading and preparing scans for SLAM,
+\item \texttt{load\_ble\_results.py} - python script loading BLE results,
+\item \texttt{src/*} - Python functions for data loading.
+
 \end{itemize} 
 
 \section{Measurements description}
@@ -124,6 +127,23 @@ The location of the calibration points are presented in Fig.\ref{fig:calibration
 \caption{\label{fig:calibration}Locations of calibration measurements. The colours of the points reflect the measured RSS value by anchor 4.}
 \end{figure}
 
+\section{Data processing}
+The dataset contains preprocessed data. The SLAM measurements were used to create a radio map, which is a basis for localization of robotic platform during the calibration and test phases.
+
+The processed calibration files contain DataFrames with robot locations and RSS values measured in them. The \texttt{calibration\_df.csv} file contains a DataFrame in which the robot locations are recalculated to take into account the displacement of the system tag from the LiDAR. The top-view schematic of the platform marking the respective sensors is presented in Fig/\ref{fig:displacement}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\columnwidth]{figs/displacement}
+\caption{\label{fig:displacement}The top-view schematic of the platform with Lidar and sensor displacements}
+\end{figure}
+
+The robot test files were processed in the same manner as calibration files.
+
+
+\color{red}
+Please note that the identifiers of the anchors are changed after preprocessing from [3,4,5,8,10,11] to [1,2,3,4,5,6] respectively.
+\color{black}
 
 \section{Licence and attribution}
 

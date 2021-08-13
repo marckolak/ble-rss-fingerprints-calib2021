@@ -71,28 +71,32 @@ The dataset consists of three parts:
 
 \section{Files}
 The dataset consists of files containing raw measurement results, processed measurement results and Python scripts for data handling. 
+
 \begin{itemize}
 \item \texttt{slam/mapping\_motion.txt} - file containing motion history for SLAM measurements,
 \item \texttt{slam/mapping\_scans.txt} - scans gather during the SLAM session,
 \item \texttt{slam/gridmap.pickle} - gridmap obtained using the GraphSLAM algorithm,
+\vspace{8pt}
 \item \texttt{calibration/calibX\_motion.txt} - file containing motion history for a calibration path X $X=1..4$,
 \item \texttt{calibration/calibX\_scans.txt} - file containing scans for a calibration path X $X=1..4$,
 \item \texttt{calibration/calibX\_ble.txt} - file containing RSS measurement results for a calibration path X $X=1..4$,
 \item \texttt{calibration/calibX\_df.csv} - preprocessed calibration DataFrames (LiDAR locations + RSS) $X=1..4$,
 \item \texttt{calibration/calibration\_df.csv} - calibration DataFrame (tag locations \& RSS measurement results),
+\vspace{8pt}
 \item \texttt{tests/test\_robot\_motion.txt} - file containing motion history for a robot test path X,
 \item \texttt{tests/test\_robot\_scans.txt} - file containing scans for a robot test path X,
 \item \texttt{tests/test\_robot\_ble.txt} - file containing RSS measurement results for a robot test path X
-\item \texttt{tests/test\_robot\_df.csv} - preprocessed test DataFrames (tag locations \& RSS measurement results),
+\item \texttt{tests/test\_robot\_df.csv} - preprocessed test DataFrame (tag locations \& RSS measurement results),
 \item \texttt{tests/test\_walk\_ble.txt} - file containing RSS measurement results for a walking person,
 \item \texttt{tests/test\_walk\_path.csv} - walking test path coordinates,
-
-
+\item \texttt{tests/test\_walk\_df.csv} - preprocessed test DataFrame (RSS measurement results),
+\vspace{8pt}
 \item \texttt{prepare\_scans.py} - python script loading and preparing scans for SLAM,
 \item \texttt{load\_ble\_results.py} - python script loading BLE results,
 \item \texttt{src/*} - Python functions for data loading.
 
 \end{itemize} 
+
 
 \section{Measurements description}
 
@@ -145,9 +149,14 @@ The robot test files were processed in the same manner as calibration files.
 Please note that the identifiers of the anchors are changed after preprocessing from [3,4,5,8,10,11] to [1,2,3,4,5,6] respectively.
 \color{black}
 
+
+\section{Testing data}
+The dataset requires two test measurements: one taken with a robot and one containing RSS measurements registered in a walking person localization. During the second experiment the person walked along the reference trajectory composed of straight lines. The coordinates of the trajectory vertices can be found in \texttt{tests/test\_walk\_df.csv} file. Each of the file's lines contains the coordinates of the line starting and ending points in the following order : $x_0$, $y_0$, $x_1$, $y_1$.
+
+
 \section{Licence and attribution}
 
-The dataset is licensed under \textit{Creative Commons Attribution 4.0 International} license. The actual citation data can be found in the metadata on Zenodo or Readme file on Github.
+The dataset is licensed under \textit{Creative Commons Attribution 4.0 International} licence. The actual citation data can be found in the metadata on Zenodo or Readme file on Github.
 
 
 

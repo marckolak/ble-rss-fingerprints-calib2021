@@ -6,4 +6,7 @@ The set contains both raw and preprocessed measurement data. The Python code for
 
 The detailed dataset description can be found in dataset_description file.
 
-![Exemplary points](description/figs/measurement_points.png)
+
+<img src="description/figs/measurement_points.png" alt="Exemplary points" width="600"/>
+
+When using the datase consider citing the original paper. More information on Zenodo site and in the most recent commit on master branch.

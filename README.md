@@ -5,3 +5,5 @@ The dataset contains Bluetooth Low Energy signal strengths measured in a fully f
 The set contains both raw and preprocessed measurement data. The Python code for raw data loading is supplied.
 
 The detailed dataset description can be found in dataset_description file.
+
+![Exemplary points](description/figs/measurement_points.png)

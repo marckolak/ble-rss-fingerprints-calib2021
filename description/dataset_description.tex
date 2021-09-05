@@ -86,16 +86,17 @@ The dataset consists of files containing raw measurement results, processed meas
 
 \dirtree{%
 .1 /.
-.2 slam.
-.3 mapping\_motion.txt\DTcomment{file containing motion history for SLAM measurements}.
-.3 mapping\_scans.txt\DTcomment{scans gather during the SLAM session}.
-.3 gridmap.pickle\DTcomment{gridmap obtained using the GraphSLAM algorithm}.
 .2 calibration.
-.3 calibX\_motion.txt\DTcomment{file containing motion history for a calibration path X $X=1..4$}.
-.3 calibX\_scans.txt\DTcomment{file containing scans for a calibration path X $X=1..4$}.
 .3 calibX\_ble.txt\DTcomment{file containing RSS measurement results for a calibration path X $X=1..4$}.
 .3 calibX\_df.csv\DTcomment{preprocessed calibration DataFrames (LiDAR locations + RSS) $X=1..4$}.
+.3 calibX\_motion.txt\DTcomment{file containing motion history for a calibration path X $X=1..4$}.
+.3 calibX\_scan.txt\DTcomment{file containing scans for a calibration path X $X=1..4$}.
 .3 calibration\_df.csv\DTcomment{calibration DataFrame (tag locations \& RSS measurement results)}.
+.2 slam.
+.3 gridmap.pickle\DTcomment{gridmap obtained using the GraphSLAM algorithm}.
+.3 mapping\_motion.txt\DTcomment{file containing motion history for SLAM measurements}.
+.3 mapping\_scan.txt\DTcomment{scans gather during the SLAM session}.
+.2 src\DTcomment{Python functions for data loading}.
 .2 tests.
 .3 test\_robot\_motion.txt\DTcomment{file containing motion history for a robot test path X}.
 .3 test\_robot\_scans.txt\DTcomment{file containing scans for a robot test path X}.
@@ -104,10 +105,10 @@ The dataset consists of files containing raw measurement results, processed meas
 .3 test\_walk\_ble.txt\DTcomment{file containing RSS measurement results for a walking person}.
 .3 test\_walk\_path.csv\DTcomment{walking test path coordinates}.
 .3 test\_walk\_df.csv\DTcomment{preprocessed test DataFrame (RSS measurement results)}.
-.3 calibX\_motion.txt\DTcomment{file containing motion history for a calibration path X $X=1..4$}.
-.2 src\DTcomment{Python functions for data loading}.
-.2 prepare\_scans.py\DTcomment{python script loading and preparing scans for SLAM}.
+.2 anchors.csv\DTcomment{locations of BLE anchor nodes}.
+.2 layout.csv\DTcomment{test site layout (the lines include consecutive vertices of the walls)}.
 .2 load\_ble\_results.py\DTcomment{python script loading BLE results}.
+.2 prepare\_scans.py\DTcomment{python script loading and preparing scans for SLAM}.
 }
 \vspace{16 pt}
 
@@ -122,14 +123,15 @@ The measurements were performed using the localization system described in \cite
 \label{plan}
 \end{figure}
 
-The system infrastructure used in the study comprised six anchors, distributed among the apartment. The used anchors are equipped with two Laird BL652 modules with external antennas of perpendicular polarization. In the system, the tag transmits BLE packets five times per second in three advertisement channels. The anchors periodically switch the reception channels and measure the power of the received signals. The results from both modules are averaged and sent to a localization server, which stores them in a database for future processing. The measurement results were gathered using a robotic platform, which is presented in Fig.\ref{fig:robot}.
+The system infrastructure used in the study comprised six anchors, distributed among the apartment. The layout layout of the walls and anchor locations are stored in \texttt{layout.csv} and \texttt{anchors.csv} files respectively.
+
+The used anchors are equipped with two Laird BL652 modules with external antennas of perpendicular polarization. In the system, the tag transmits BLE packets five times per second in three advertisement channels. The anchors periodically switch the reception channels and measure the power of the received signals. The results from both modules are averaged and sent to a localization server, which stores them in a database for future processing. The measurement results were gathered using a robotic platform, which is presented in Fig.\ref{fig:robot}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\columnwidth]{figs/robot}
 \caption{\label{fig:robot}The mobile platform used in the study.}
 \end{figure}
-
 
 The platform was based on the Dagu Wild Thumper 6WD chassis and was controlled with a specially developed Python-based controller running on Raspberry Pi 4. The code for the controller and the PC applications used to gather the LiDAR results can be found at \cite{b2}.  The odometry measurements were performed by estimating the traveled distance and rotation angle through multiplying the elapsed time by the linear and rotation speed respectively.
 
@@ -149,16 +151,14 @@ The location of the calibration points are presented in Fig. \ref{fig:calibratio
 The dataset contains preprocessed data. The SLAM measurements were used to create a radio map, which is a basis for positioning of the robotic platform during the calibration and test phases.
 
 The processed calibration files contain DataFrames with robot locations and RSS values measured in them. The \texttt{calibration\_df.csv} file contains a DataFrame in which the robot locations are recalculated to take into account the displacement of the system tag from the LiDAR. The top-view schematic of the platform marking the respective sensors is presented in Fig. \ref{fig:displacement}.
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=.5\columnwidth]{figs/displacement}
 \caption{\label{fig:displacement}The top-view schematic of the platform with Lidar and sensor displacements}
 \end{figure}
 
+\noindent
 The robot test files were processed in the same manner as calibration files.
-
-
 \color{red}
 Please note that the identifiers of the anchors are changed after preprocessing from [3,4,5,8,10,11] to [1,2,3,4,5,6] respectively.
 \color{black}
@@ -168,14 +168,9 @@ Please note that the identifiers of the anchors are changed after preprocessing 
 The dataset requires two test measurements: one taken with a robot and one containing RSS measurements registered in a walking person localization. During the second experiment the person walked along the reference trajectory composed of straight lines. The coordinates of the trajectory vertices can be found in \texttt{tests/test\_walk\_df.csv} file. Each of the file's lines contains the coordinates of the line starting and ending points in the following order : $x_0$, $y_0$, $x_1$, $y_1$.
 
 
-
-
-
 \section{Licence and attribution}
 
 The dataset is licensed under \textit{Creative Commons Attribution 4.0 International} licence. The actual citation data can be found in the metadata on Zenodo or Readme file on Github.
-
-
 
 
 \begin{thebibliography}{00} 

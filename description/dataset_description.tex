@@ -1,9 +1,12 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[conference, 11pt, onecolumn]{IEEEtran}
 \IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-
 
 \usepackage{scalerel}
+
+% package for directory tree display
+\usepackage{dirtree}
+
+%%% OrcID vector logo %%%
 \usepackage{tikz}
 \usetikzlibrary{svg.path}
 
@@ -22,10 +25,10 @@
 \pic{orcidlogo};
 \end{tikzpicture}
 }{|}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \usepackage{hyperref} %<--- Load after everything else
-
-
 
 
 \usepackage{cite}
@@ -34,8 +37,14 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+
+\definecolor{MyBlue}{rgb}{0.12,0.47,0.7}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+    
+    
+%%% BEGIN DOCUMENT %%%    
 \begin{document}
 
 \title{Dataset: BLE RSS dataset for fingerprinting radio map calibration}
@@ -70,32 +79,37 @@ The dataset consists of three parts:
 \end{itemize}
 
 \section{Files}
-The dataset consists of files containing raw measurement results, processed measurement results and Python scripts for data handling. 
+The dataset consists of files containing raw measurement results, processed measurement results and Python scripts for data handling. The data repository structure is presented below.
 
-\begin{itemize}
-\item \texttt{slam/mapping\_motion.txt} - file containing motion history for SLAM measurements,
-\item \texttt{slam/mapping\_scans.txt} - scans gather during the SLAM session,
-\item \texttt{slam/gridmap.pickle} - gridmap obtained using the GraphSLAM algorithm,
-\vspace{8pt}
-\item \texttt{calibration/calibX\_motion.txt} - file containing motion history for a calibration path X $X=1..4$,
-\item \texttt{calibration/calibX\_scans.txt} - file containing scans for a calibration path X $X=1..4$,
-\item \texttt{calibration/calibX\_ble.txt} - file containing RSS measurement results for a calibration path X $X=1..4$,
-\item \texttt{calibration/calibX\_df.csv} - preprocessed calibration DataFrames (LiDAR locations + RSS) $X=1..4$,
-\item \texttt{calibration/calibration\_df.csv} - calibration DataFrame (tag locations \& RSS measurement results),
-\vspace{8pt}
-\item \texttt{tests/test\_robot\_motion.txt} - file containing motion history for a robot test path X,
-\item \texttt{tests/test\_robot\_scans.txt} - file containing scans for a robot test path X,
-\item \texttt{tests/test\_robot\_ble.txt} - file containing RSS measurement results for a robot test path X
-\item \texttt{tests/test\_robot\_df.csv} - preprocessed test DataFrame (tag locations \& RSS measurement results),
-\item \texttt{tests/test\_walk\_ble.txt} - file containing RSS measurement results for a walking person,
-\item \texttt{tests/test\_walk\_path.csv} - walking test path coordinates,
-\item \texttt{tests/test\_walk\_df.csv} - preprocessed test DataFrame (RSS measurement results),
-\vspace{8pt}
-\item \texttt{prepare\_scans.py} - python script loading and preparing scans for SLAM,
-\item \texttt{load\_ble\_results.py} - python script loading BLE results,
-\item \texttt{src/*} - Python functions for data loading.
+\renewcommand*\DTstyle{\ttfamily\textcolor{MyBlue}}
+\renewcommand*\DTstylecomment{\rmfamily\color{black}}
 
-\end{itemize} 
+\dirtree{%
+.1 /.
+.2 slam.
+.3 mapping\_motion.txt\DTcomment{file containing motion history for SLAM measurements}.
+.3 mapping\_scans.txt\DTcomment{scans gather during the SLAM session}.
+.3 gridmap.pickle\DTcomment{gridmap obtained using the GraphSLAM algorithm}.
+.2 calibration.
+.3 calibX\_motion.txt\DTcomment{file containing motion history for a calibration path X $X=1..4$}.
+.3 calibX\_scans.txt\DTcomment{file containing scans for a calibration path X $X=1..4$}.
+.3 calibX\_ble.txt\DTcomment{file containing RSS measurement results for a calibration path X $X=1..4$}.
+.3 calibX\_df.csv\DTcomment{preprocessed calibration DataFrames (LiDAR locations + RSS) $X=1..4$}.
+.3 calibration\_df.csv\DTcomment{calibration DataFrame (tag locations \& RSS measurement results)}.
+.2 tests.
+.3 test\_robot\_motion.txt\DTcomment{file containing motion history for a robot test path X}.
+.3 test\_robot\_scans.txt\DTcomment{file containing scans for a robot test path X}.
+.3 test\_robot\_ble.txt\DTcomment{file containing RSS measurement results for a robot test path X}.
+.3 test\_robot\_df.csv\DTcomment{preprocessed test DataFrame (tag locations \& RSS measurement results)}.
+.3 test\_walk\_ble.txt\DTcomment{file containing RSS measurement results for a walking person}.
+.3 test\_walk\_path.csv\DTcomment{walking test path coordinates}.
+.3 test\_walk\_df.csv\DTcomment{preprocessed test DataFrame (RSS measurement results)}.
+.3 calibX\_motion.txt\DTcomment{file containing motion history for a calibration path X $X=1..4$}.
+.2 src\DTcomment{Python functions for data loading}.
+.2 prepare\_scans.py\DTcomment{python script loading and preparing scans for SLAM}.
+.2 load\_ble\_results.py\DTcomment{python script loading BLE results}.
+}
+\vspace{16 pt}
 
 
 \section{Measurements description}
@@ -103,7 +117,7 @@ The dataset consists of files containing raw measurement results, processed meas
 The measurements were performed using the localization system described in \cite{b1}. The layout of the apartment and the loactions of the anchors are presented in Fig.\ref{plan}.
 
 \begin{figure}[h]
-\centerline{\includegraphics[width=\columnwidth]{figs/layout}}
+\centerline{\includegraphics[width=.7\columnwidth]{figs/layout}}
 \caption{Measurement environment with measurement locations and significant objects obstructing the path between the devices marked.}
 \label{plan}
 \end{figure}
@@ -112,7 +126,7 @@ The system infrastructure used in the study comprised six anchors, distributed a
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\columnwidth]{figs/robot}
+\includegraphics[width=0.5\columnwidth]{figs/robot}
 \caption{\label{fig:robot}The mobile platform used in the study.}
 \end{figure}
 
@@ -123,22 +137,22 @@ The platform was equipped with a Scanse Sweep LiDAR, which is a discontinued 360
 
 The system tag was attached at the middle the robot on a one meter long wooden pole, which placed it at the height of 1.3 m. Such height is close to a tag worn on a lanyard and ensures that low furniture pieces such as bed frames, couches or tables won't negatively impact the RSS measurement results.
 
-The location of the calibration points are presented in Fig.\ref{fig:calibration}.
+The location of the calibration points are presented in Fig. \ref{fig:calibration}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\columnwidth]{figs/measurement_points}
+\includegraphics[width=.7\columnwidth]{figs/measurement_points}
 \caption{\label{fig:calibration}Locations of calibration measurements. The colours of the points reflect the measured RSS value by anchor 4.}
 \end{figure}
 
 \section{Data processing}
-The dataset contains preprocessed data. The SLAM measurements were used to create a radio map, which is a basis for localization of robotic platform during the calibration and test phases.
+The dataset contains preprocessed data. The SLAM measurements were used to create a radio map, which is a basis for positioning of the robotic platform during the calibration and test phases.
 
-The processed calibration files contain DataFrames with robot locations and RSS values measured in them. The \texttt{calibration\_df.csv} file contains a DataFrame in which the robot locations are recalculated to take into account the displacement of the system tag from the LiDAR. The top-view schematic of the platform marking the respective sensors is presented in Fig/\ref{fig:displacement}.
+The processed calibration files contain DataFrames with robot locations and RSS values measured in them. The \texttt{calibration\_df.csv} file contains a DataFrame in which the robot locations are recalculated to take into account the displacement of the system tag from the LiDAR. The top-view schematic of the platform marking the respective sensors is presented in Fig. \ref{fig:displacement}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.8\columnwidth]{figs/displacement}
+\includegraphics[width=.5\columnwidth]{figs/displacement}
 \caption{\label{fig:displacement}The top-view schematic of the platform with Lidar and sensor displacements}
 \end{figure}
 
@@ -152,6 +166,9 @@ Please note that the identifiers of the anchors are changed after preprocessing 
 
 \section{Testing data}
 The dataset requires two test measurements: one taken with a robot and one containing RSS measurements registered in a walking person localization. During the second experiment the person walked along the reference trajectory composed of straight lines. The coordinates of the trajectory vertices can be found in \texttt{tests/test\_walk\_df.csv} file. Each of the file's lines contains the coordinates of the line starting and ending points in the following order : $x_0$, $y_0$, $x_1$, $y_1$.
+
+
+
 
 
 \section{Licence and attribution}

@@ -10,7 +10,9 @@ The detailed dataset description can be found in dataset_description file.
 
 <img src="description/figs/measurement_points.png" alt="Exemplary points" width="600"/>
 
-When using the datase consider citing the original paper. More information on Zenodo site and in the most recent commit on master branch.
+When using the dataset, please consider citing the original paper, where the data were first used:
+
+M. Kolakowski, *“Automated Calibration of RSS Fingerprinting Based Systems Using a Mobile Robot and Machine Learning”*, Sensors , vol. 21, 6270, Sep. 2021 https://doi.org/10.3390/s21186270
 
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
